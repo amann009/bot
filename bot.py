@@ -334,19 +334,21 @@ async def show_user_history(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     from telegram.constants import MAX_MESSAGE_LENGTH
 
-msg = f"🕓 History for user #{target_id}:\n\n"
-for q, t in rows:
-    line = f"• `{q}`\n   _({t})_\n"
-    if len(msg + line) > MAX_MESSAGE_LENGTH:
-        async def handle_update(update: Update, context: ContextTypes.DEFAULT_TYPE):
-            msg = "Your message here"
-            await update.message.reply_text(msg, parse_mode="Markdown")
+    msg = f"🕓 History for user #{target_id}:\n\n"
+    messages = []
+    for q, t in rows:
+        line = f"• `{q}`\n   _({t})_\n"
+        if len(msg + line) > MAX_MESSAGE_LENGTH:
+            messages.append(msg)
+            msg = ""
+        msg += line
 
-        msg = ""
-    msg += line
+    if msg:
+        messages.append(msg)
 
-if msg:
-    await update.message.reply_text(msg, parse_mode="Markdown")
+    for part in messages:
+        await update.message.reply_text(part, parse_mode="Markdown")
+
 
 
 
