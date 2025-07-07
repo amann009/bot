@@ -338,7 +338,10 @@ msg = f"🕓 History for user #{target_id}:\n\n"
 for q, t in rows:
     line = f"• `{q}`\n   _({t})_\n"
     if len(msg + line) > MAX_MESSAGE_LENGTH:
-        await update.message.reply_text(msg, parse_mode="Markdown")
+        async def handle_update(update: Update, context: ContextTypes.DEFAULT_TYPE):
+            msg = "Your message here"
+            await update.message.reply_text(msg, parse_mode="Markdown")
+
         msg = ""
     msg += line
 
@@ -361,6 +364,8 @@ def main():
     app.add_handler(CallbackQueryHandler(download_button_callback, pattern="^search_dl_"))
     app.add_handler(CallbackQueryHandler(search_pagination_callback, pattern="^search_"))
     app.add_handler(CommandHandler("history", show_user_history))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_update))
+
 
 
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
