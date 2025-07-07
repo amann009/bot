@@ -1,3 +1,5 @@
 python-telegram-bot==20.8
 requests
 flask  # only if you're using it for webhooks
+
+yt_dlp
