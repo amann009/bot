@@ -17,7 +17,7 @@ from telegram.ext import (
     MessageHandler, ContextTypes, filters
 )
 
-TOKEN = "7848205960:AAHCYy934Nof5u7FFS23GXnnuqH1SkiOJjA"
+TOKEN = "YOUR_BOT_TOKEN"
 ADMIN_ID = 5997101799
 MAX_CONCURRENT_DOWNLOADS = 2
 DB_PATH = "bot_data.db"
@@ -159,7 +159,6 @@ def is_xvideos_link(text):
 @limit_downloads
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text.strip()
-    # Save query to history table
     user_id = get_or_create_user(update.effective_user.id, update.effective_user.username or '')
     c.execute("INSERT INTO history (user_id, query) VALUES (?, ?)", (user_id, text))
     conn.commit()
@@ -349,12 +348,9 @@ async def show_user_history(update: Update, context: ContextTypes.DEFAULT_TYPE):
     for part in messages:
         await update.message.reply_text(part, parse_mode="Markdown")
 
-
-
-# ============================ MAIN ============================
 # ============================ MAIN ============================
 def main():
-    app = ApplicationBuilder().token(TOKEN).concurrent_updates(True).build()  # 🔧 DISABLE old Updater
+    app = ApplicationBuilder().token(TOKEN).concurrent_updates(True).build()
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("help", help_cmd))
@@ -374,4 +370,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
