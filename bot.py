@@ -351,7 +351,6 @@ async def show_user_history(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 
-
 # ============================ MAIN ============================
 def main():
     app = ApplicationBuilder().token(TOKEN).build()
@@ -361,14 +360,14 @@ def main():
     app.add_handler(CommandHandler("settings", settings))
     app.add_handler(CommandHandler("users", list_users))
     app.add_handler(CommandHandler("stats", show_stats))
+    app.add_handler(CommandHandler("history", show_user_history))
 
     app.add_handler(CallbackQueryHandler(settings_callback, pattern="^quality_"))
     app.add_handler(CallbackQueryHandler(download_button_callback, pattern="^search_dl_"))
     app.add_handler(CallbackQueryHandler(search_pagination_callback, pattern="^search_"))
-    app.add_handler(CommandHandler("history", show_user_history))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_update))
 
-
+    # Removed invalid handler causing the crash
+    # app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_update))
 
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
