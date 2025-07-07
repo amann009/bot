@@ -352,8 +352,9 @@ async def show_user_history(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 # ============================ MAIN ============================
+# ============================ MAIN ============================
 def main():
-    app = ApplicationBuilder().token(TOKEN).build()
+    app = ApplicationBuilder().token(TOKEN).concurrent_updates(True).build()  # 🔧 DISABLE old Updater
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("help", help_cmd))
@@ -366,9 +367,6 @@ def main():
     app.add_handler(CallbackQueryHandler(download_button_callback, pattern="^search_dl_"))
     app.add_handler(CallbackQueryHandler(search_pagination_callback, pattern="^search_"))
 
-    # Removed invalid handler causing the crash
-    # app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_update))
-
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
     print("🤖 Bot is running...")
@@ -376,3 +374,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
