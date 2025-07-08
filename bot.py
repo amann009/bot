@@ -17,7 +17,7 @@ from telegram.ext import (
     MessageHandler, ContextTypes, filters
 )
 
-TOKEN = "YOUR_BOT_TOKEN"
+TOKEN = "7848205960:AAHCYy934Nof5u7FFS23GXnnuqH1SkiOJjA"
 ADMIN_ID = 5997101799
 MAX_CONCURRENT_DOWNLOADS = 2
 DB_PATH = "bot_data.db"
